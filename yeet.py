@@ -33,27 +33,38 @@ def init(data):
     data.level = 'game'
     data.debrispos = []
 
+def drawDebris(canvas, data):
+    for item in data.debrispos: 
+        size = 5
+        x = item[0]
+        y = item[1]
+        canvas.create_rectangle(x, y, x+size, y+size)
+
 def move(data):
     data.personx += 1
     for item in data.debrispos:
         if (data.personx, data.persony) == item:
             data.mode = 'dead'
     if data.personx > data.width: 
-        data.level = 'fin'
-        
-    
+        data.level = 'fin'        
 
 def mousePressed(event,data):
     pass
 
-def keyPressed(event,data):
+def keyPressed(event, data):
+    if data.mode == 'start':
+        data.mode = "play"
     pass
 
 def timerFired(data):
     move(data)
 
 def redrawAll(canvas, data):
-    canvas.create_oval(data.personx, data.persony, data.personx+10, data.persony+10) 
+    if data.mode == 'start':
+        canvas.create_text(data.width//2, data.height//2, text="hello world press any key to play")
+    elif data.mode == "play":
+        canvas.create_oval(data.personx, data.persony, data.personx+10, data.persony+10) 
+        drawDebris(canvas,data)
     
 
 ####################################
@@ -72,9 +83,9 @@ def run(width=300, height=300):
         mousePressed(event, data)
         redrawAllWrapper(canvas, data)
         
-    def mouseMovedWrapper(event, canvas, data): #mouse moved functionality from https://stackoverflow.com/questions/22925599/mouse-position-python-tkinter
-        mouseMoved(event, data)
-        
+    def mouseMovedWrapper(event, canvas, data):
+        mouseMovedWrapper(event, data)
+        redrawAllWrapper(canvas,data)    
 
     def keyPressedWrapper(event, canvas, data):
         keyPressed(event, data)
