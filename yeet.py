@@ -1,7 +1,5 @@
 ### the floor is fucking lava 
 
-import random
-from tkinter import *
 '''
 model, view, control 
 
@@ -26,11 +24,15 @@ loadImage(data, filename):
 loadGif(data): 
    '''
    
+#import debris
+import random
+from tkinter import *
+   
 def init(data): 
     data.mode = 'start'
     data.personx = 0
     data.persony = data.height
-    data.level = 'game'
+    data.level = 1
     data.debrispos = []
     loadGif(data)
     data.count = 0
@@ -47,13 +49,33 @@ def drawDebris(canvas, data):
         y = item[1]
         canvas.create_rectangle(x, y, x+size, y+size)
 
-def move(data):
-    data.personx += 1
+def movePerson(data):
+    data.personx += (1*data.level)
     for item in data.debrispos:
         if (data.personx, data.persony) == item:
             data.mode = 'dead'
     if data.personx > data.width: 
-        data.level = 'fin'        
+        levelUp(data)
+
+def levelUp(data):
+    data.personx = 0
+    data.persony = 0
+    data.level += 0.5
+
+def drawGame(canvas, data):
+        #bg shit
+        yawn = data.starGif[0]
+        
+        data.count += 1 
+        starbg =  data.starGif[data.count%48] 
+        
+        canvas.create_image(0, 0, image=starbg) 
+        
+        #person
+        canvas.create_oval(data.personx, data.persony, data.personx+10, data.persony+10) 
+        
+        #debris
+        drawDebris(canvas,data)
 
 def mousePressed(event,data):
     pass
@@ -61,7 +83,6 @@ def mousePressed(event,data):
 def keyPressed(event, data):
     if data.mode == 'start':
         data.mode = "play"
-    pass
 
 def timerFired(data):
     move(data)
@@ -70,17 +91,7 @@ def redrawAll(canvas, data):
     if data.mode == 'start':
         canvas.create_text(data.width//2, data.height//2, text="hello world press any key to play")
     elif data.mode == "play":
-        
-        yawn = data.starGif[0]
-        
-        data.count += 1 
-        starbg =  data.starGif[data.count%48] 
-        
-        canvas.create_image(0, 0, image=starbg) 
-        
-        canvas.create_oval(data.personx, data.persony, data.personx+10, data.persony+10) 
-        drawDebris(canvas,data)
-    
+        drawGame(canvas, data)
 
 ####################################
 # use the run function as-is

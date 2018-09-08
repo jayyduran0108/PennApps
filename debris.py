@@ -13,8 +13,12 @@ print("hi")
 
 class Debris(object):
     def __init__(self, data):
-        return
-
+        pass
+    
+    def area(self):
+        #need to find area of the debris so that we can compare collision 
+        pass 
+'''
 def init(data):
     # load data.xyz as appropriate
     pass
@@ -32,7 +36,7 @@ def timerFired(data):
 
 def redrawAll(canvas, data):
     # draw in canvas
-    pass
+    pass '''
 
 ####################################
 # use the run function as-is
