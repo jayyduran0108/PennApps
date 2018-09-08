@@ -32,6 +32,13 @@ def init(data):
     data.persony = data.height
     data.level = 'game'
     data.debrispos = []
+    loadGif(data)
+    data.count = 0
+    
+def loadGif(data):
+    data.starGif = dict()
+    for i in range(48):
+        data.starGif[i] = PhotoImage(file="stars.gif", format="gif -index "+str(i))
 
 def drawDebris(canvas, data):
     for item in data.debrispos: 
@@ -63,6 +70,14 @@ def redrawAll(canvas, data):
     if data.mode == 'start':
         canvas.create_text(data.width//2, data.height//2, text="hello world press any key to play")
     elif data.mode == "play":
+        
+        yawn = data.starGif[0]
+        
+        data.count += 1 
+        starbg =  data.starGif[data.count%48] 
+        
+        canvas.create_image(0, 0, image=starbg) 
+        
         canvas.create_oval(data.personx, data.persony, data.personx+10, data.persony+10) 
         drawDebris(canvas,data)
     
