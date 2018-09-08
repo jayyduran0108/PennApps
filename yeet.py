@@ -28,7 +28,9 @@ loadGif(data):
    
 def init(data): 
     data.mode = 'start'
-    data.
+    data.personx = 0
+    data.persony = 0 
+
 
 def mousePressed(event,data):
     pass
@@ -41,3 +43,9 @@ def timerFired(data):
 
 def redrawAll(canvas, data);
     pass 
+    
+def main():
+    run(500,500)
+    
+if name == 'main':
+    main()
