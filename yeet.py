@@ -29,8 +29,19 @@ loadGif(data):
 def init(data): 
     data.mode = 'start'
     data.personx = 0
-    data.persony = 0 
+    data.persony = data.height
+    data.level = 'game'
+    data.debrispos = []
 
+def move(data):
+    data.personx += 1
+    for item in data.debrispos:
+        if (data.personx, data.persony) == item:
+            data.mode = 'dead'
+    if data.personx > data.width: 
+        data.level = 'fin'
+        
+    
 
 def mousePressed(event,data):
     pass
@@ -39,10 +50,10 @@ def keyPressed(event,data):
     pass
 
 def timerFired(data):
-    pass
+    move(data)
 
-def redrawAll(canvas, data);
-    pass 
+def redrawAll(canvas, data):
+    canvas.create_oval(data.personx, data.persony, data.personx+10, data.persony+10) 
     
 
 ####################################
@@ -102,5 +113,5 @@ def run(width=300, height=300):
 def main():
     run(500,500)
     
-if name == 'main':
+if __name__ == '__main__':
     main()
